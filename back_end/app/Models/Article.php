@@ -14,5 +14,17 @@ class Article extends Model
         'author',
         'description',
         'content',
+        'user_id',
+        'category_id'
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

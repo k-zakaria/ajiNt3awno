@@ -26,7 +26,7 @@ class CreateArticleTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
-                ->onUpdate('cascade'); 
+                ->onUpdate('cascade');
                      
             $table->foreign('category_id')
                 ->references('id')
