@@ -5,59 +5,72 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
     //afficage de touts les articles
     public function index(Category $category)
     {
-        $articles = Article::where('category_id', $category->id)->get();
+        $articles = Article::latest()->get();
+        
+        $leftArticles = $articles->slice(1,3);
+        $rightArticles = $articles->slice(4,7);
+        $autreArticles = $articles->slice(9);
 
-        return view('frontOffice.index', compact('articles', 'category'));
+        return view('frontOffice.index', compact('leftArticles', 'rightArticles', 'category', 'autreArticles', 'articles'));
     }
 
     public function showArticlesByCategory(Category $category)
     {
-        $articles = $category->articles()->get();
+        $articles = $category->articles()->latest()->get();
 
-        return view('frontOffice.articles_by_category', compact('articles', 'category'));
+        $rightArticles = $articles->slice(1, 2);
+        $autreArticles = $articles->slice(3);
+
+        return view('frontOffice.articles_by_category', compact('rightArticles', 'autreArticles', 'articles', 'category'));
     }
 
     //affichage un sule article 
-    public function show($id)
+    public function show()
     {
-        $article = Article::find($id);
+        $author_id = Auth::id();
+        $articles = Article::where('author_id', $author_id)->get();
+        $categories = Category::all();
 
-        if (!$article) {
-            return response()->json(['message' => 'article existe pas.'], 404);
-        }
-        return response()->json($article);
+        
+        $data = [
+            'articles' => $articles,
+            'categories' => $categories,
+        ];
+        return view('backOffice.articles', compact('data'));
     }
 
-    //ajouter un article
     public function store(Request $request)
     {
-        $validation = $request->validate([
-            'title' => 'required|unique',
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required',
             'author' => 'required',
             'description' => 'required',
             'content' => 'required',
-            'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $article = new Article();
-        $article->title = $request->title;
-        $article->author = $request->author;
-        $article->description = $request->description;
-        $article->content = $request->content;
-        $article->user_id = $request->user_id;
-        $article->category_id = $request->category_id;
+        $author_id = auth()->id();
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = 'images/' . time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('public/images', $imageName);
+        }
 
-        $article->save();
+        Article::create(array_merge($request->all(), [
+            'author_id' => $author_id,
+            'image' => $imageName ?? null
+        ]));
 
-        return response()->json('Article ajouté avec succès');
+        return redirect()->back()->with('success', 'Article créé avec succès');
     }
 
     //supprimer un article
@@ -71,37 +84,48 @@ class ArticleController extends Controller
 
         $article->delete();
 
-        return response()->json('article a été supprimée avec succès.');
+        return redirect()->back()->with('success', 'article a été supprimée avec succès.');
     }
 
-    public function update(Request $request, $id)
+
+
+    public function update(Request $request, Article $article)
     {
-        $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'description' => 'required',
-            'content' => 'required',
-            'user_id' => 'required|exists:users,id',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'title' => 'required',
+                'author' => 'required',
+                'description' => 'required',
+                'content' => 'required',
+                'category_id' => 'required|exists:categories,id',
+            ]);
 
-        $article = Article::find($id);
+            $author_id = auth()->id();
 
-        if (!$article) {
-            return response()->json(['message' => 'article existe pas.'], 404);
+            $data = [
+                'title' => $validatedData['title'],
+                'author' => $validatedData['author'],
+                'description' => $validatedData['description'],
+                'content' => $validatedData['content'],
+                'category_id' => $validatedData['category_id'],
+            ];
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = 'images/' . time() . '_' . $image->getClientOriginalName();
+                $image->storeAs('public/images', $imageName);
+                $data['image'] = $imageName;
+            }
+
+            $article->update($data);
+
+            return redirect()->back()->with('success', 'Article mis à jour avec succès');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour de l\'article.');
         }
-
-        $article->title = $request->title;
-        $article->author = $request->author;
-        $article->description = $request->description;
-        $article->content = $request->content;
-        $article->user_id = $request->user_id;
-        $article->category_id = $request->category_id;
-
-        $article->save();
-
-        return response()->json(['message' => 'article a été mis à jour avec succès.', 'article' => $article]);
     }
+
 
     //search article par "title"
 

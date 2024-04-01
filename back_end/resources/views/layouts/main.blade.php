@@ -76,39 +76,11 @@
       <div class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm  " style="margin-top: 50px;">
         <div class=" container collapse navbar-collapse  border-top " id="navbarNav">
           <ul class="navbar-nav mx-auto justify-content-center  ">
+            @foreach($categorys as $category)
             <li class="nav-item">
-              <a class="nav-link" href="#">World</a>
+              <a class="nav-link" href="{{ route('articles.category', $category->id) }}">{{ $category->name}}</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Politics</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Business</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Opinion</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Tech</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Science</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Health</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Sports</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Entertainment</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Travel</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">More</a>
-            </li>
+            @endforeach
           </ul>
         </div>
       </div>

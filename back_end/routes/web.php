@@ -4,8 +4,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,16 +31,27 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/category/{category}', [ArticleController::class, 'showArticlesByCategory'])->name('articles.category');
-// Route::get('/', [CategoryController::class, 'index']);
 
-
-
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/categories', [CategoryController::class, 'get'])->name('categories.index');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/admin/categories/{categorie}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/admin/categories/{categorie}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/admin/users', [AuthController::class, 'get'])->name('users.get');
+    Route::put('/admin/users/{id}', [AuthController::class, 'update'])->name('users.update');
+    
+    Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
+    Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
+    Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
+    Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+});
+    
+    
 //CRUD article
-Route::get('/article/search/{title}',[ArticleController::class, 'search']);
+Route::get('/article/search/{title}', [ArticleController::class, 'search']);
 
 Route::resource('/article', ArticleController::class);
-Route::post('/logout',[AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 //CRUD category
 Route::resource('/categorie', CategoryController::class);
-

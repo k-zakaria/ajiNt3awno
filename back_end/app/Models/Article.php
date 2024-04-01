@@ -10,15 +10,16 @@ class Article extends Model
     use HasFactory;
     
     protected $fillable = [
+        'image',
         'title',
         'author',
         'description',
         'content',
-        'user_id',
+        'author_id',
         'category_id'
     ];
 
-    public function user()
+    public function author()
     {
         return $this->hasMany(User::class);
     }
