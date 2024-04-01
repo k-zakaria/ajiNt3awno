@@ -10,12 +10,12 @@ class CategoryController extends Controller
     //affichage touts les categories
     public function index()
     {
-        $category = Category::all();
-        return response()->json($category);
-    }
+        $categorys = Category::all();
+        return view('layouts.main', compact( 'categorys'));
+    }   
 
     //affichage un sule categorie
-    public function show($id)
+    public function show($id)   
     {
         $category = Category::find($id);
 

@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
     //afficage de touts les articles
-    public function index()
+    public function index(Category $category)
     {
-        $article = Article::all();
-        return response()->json($article);
+        $articles = Article::where('category_id', $category->id)->get();
+
+        return view('frontOffice.index', compact('articles', 'category'));
+    }
+
+    public function showArticlesByCategory(Category $category)
+    {
+        $articles = $category->articles()->get();
+
+        return view('frontOffice.articles_by_category', compact('articles', 'category'));
     }
 
     //affichage un sule article 
@@ -22,7 +31,6 @@ class ArticleController extends Controller
         if (!$article) {
             return response()->json(['message' => 'article existe pas.'], 404);
         }
-
         return response()->json($article);
     }
 
@@ -97,7 +105,8 @@ class ArticleController extends Controller
 
     //search article par "title"
 
-    public function search($title){
-        return Article::where('title', 'like', '%'.$title.'%')->get();
+    public function search($title)
+    {
+        return Article::where('title', 'like', '%' . $title . '%')->get();
     }
 }
