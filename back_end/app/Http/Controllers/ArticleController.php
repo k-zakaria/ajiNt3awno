@@ -12,7 +12,7 @@ class ArticleController extends Controller
     //afficage de touts les articles
     public function index(Category $category)
     {
-        $articles = Article::latest()->get();
+        $articles = Article::where('status', '=', 'accepted')->latest()->get();
         
         $leftArticles = $articles->slice(1,3);
         $rightArticles = $articles->slice(4,7);
@@ -25,17 +25,29 @@ class ArticleController extends Controller
     {
         $articles = $category->articles()->latest()->get();
 
-        $rightArticles = $articles->slice(1, 2);
-        $autreArticles = $articles->slice(3);
+        $rightArticles = $articles->slice(1, 4);
+        $autreArticles = $articles->slice(5);
 
         return view('frontOffice.articles_by_category', compact('rightArticles', 'autreArticles', 'articles', 'category'));
+    }
+
+
+    public function showDetai($id)
+    {
+        $article = Article::find($id);
+
+        if (!$article) {
+            return response()->json(['message' => 'article existe pas.'], 404);
+        }
+
+        return response()->json($article);
     }
 
     //affichage un sule article 
     public function show()
     {
         $author_id = Auth::id();
-        $articles = Article::where('author_id', $author_id)->get();
+        $articles = Article::where('author_id', $author_id)->paginate(4);
         $categories = Category::all();
 
         
@@ -129,8 +141,51 @@ class ArticleController extends Controller
 
     //search article par "title"
 
-    public function search($title)
-    {
-        return Article::where('title', 'like', '%' . $title . '%')->get();
+
+    public function showArticleAdmin(){
+        $articles = Article::where('status', '=', 'pending')->get();
+
+        return view('backOffice.articlesAdmin', compact('articles'));
+    }
+
+    public function showArchivedArticles(){
+        $articles = Article::where('status', '=', 'archived')->get();
+
+        return view('backOffice.articlesArchivedAdmin', compact('articles'));
+    }
+
+    public function showRefusedArticles(){
+        $articles = Article::where('status', '=', 'refused')->get();
+
+        return view('backOffice.articlesRefusedAdmin', compact('articles'));
+    }
+
+    public function acceptarticle($id){
+        $event = Article::find($id);
+        $event->status = 'accepted';
+        $event->save();
+        return redirect()->back();
+    }
+
+    public function archivedarticle($id){
+        $event = Article::find($id);
+        $event->status = 'archived';
+        $event->save();
+        return redirect()->back();
+    }
+
+    public function refusedarticle($id){
+        $event = Article::find($id);
+        $event->status = 'refused';
+        $event->save();
+        return redirect()->back();
+    }
+
+    public function deArchivedarticle($id){
+        $event = Article::find($id);
+        $event->status = 'pending';
+        $event->save();
+        return redirect()->back();
     }
 }
+

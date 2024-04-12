@@ -25,81 +25,92 @@
 
 
 <body>
-  <nav>
-    <nav>
-      <div class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm ">
-        <div class="container  ">
-          <a class="navbar-brand" href="/" style="color: #141f38; font-size: 25px; "><span style="color: #023071; " class="nav-brand-two">C</span>N</a>
-          <div class="relative flex items-center">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <div class="container">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="/" style="color: #141f38; font-size: 25px; "><span style="color: #023071; " class="nav-brand-two">C</span>N</a>
+
+        <!-- Search bar -->
+        <div class="relative flex items-center">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-              <i class="fas fa-search text-gray-400"></i>
+                <i class="fas fa-search text-gray-400"></i>
             </span>
             <input type="text" class="pl-3 pr-4 rounded-4 w-full py-1 border border-gray-300 " placeholder="Search">
-          </div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+
+        <!-- Collapsible navbar content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              @if(Auth::check())
-              @if(Auth::User()->role_id == 1)
-              <li><a class="nav-link ml-5 navigation" href="/categories">dashboard</a></li>
-              @elseif(Auth::User()->role_id == 2)
-              <li><a class="nav-link ml-5 navigation" href="/events">dashboard</a></li>
-              @endif
-              <li class="nav-item">
-                <a class="nav-link ml-5 navigation" href="reservation">Mes réservations</a>
-              </li>
+                @if(Auth::check())
+                @if(Auth::User()->role_id == 1)
+                <li><a class="nav-link ml-5 navigation" href="/categories">dashboard</a></li>
+                @elseif(Auth::User()->role_id == 2)
+                <li><a class="nav-link ml-5 navigation" href="/events">dashboard</a></li>
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link ml-5 navigation" href="reservation">Mes réservations</a>
+                </li>
 
-              <div class="dropdown d-flex">
-                <a href="#" class="dropdown-toggle nav-link   navigation " id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
-                <ul class="dropdown-menu dropdown-menu-end text-small shadow dropdown__list" aria-labelledby="notificationsDropdown">
-                  <li><a class="dropdown-item rounded-2" href="#">Profil</a></li>
-                  <li><a class="dropdown-item rounded-2" href="#">Sitting</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item rounded-2" href="{{ route('user.logout') }}">Sign out</a></li>
-                </ul>
-              </div>
-              @else
-              <li class="nav-item">
-                <a class="nav-link ml-5 navigation" href="{{ route('user.register') }}">Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link ml-5 navigation" href="{{ route('user.login') }}">Login</a>
-              </li>
-              @endif
+                <div class="dropdown d-flex">
+                    <a href="#" class="dropdown-toggle nav-link   navigation " id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow dropdown__list" aria-labelledby="notificationsDropdown">
+                        <li><a class="dropdown-item rounded-2" href="#">Profil</a></li>
+                        <li><a class="dropdown-item rounded-2" href="#">Sitting</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item rounded-2" href="{{ route('user.logout') }}">Sign out</a></li>
+                    </ul>
+                </div>
+                @else
+                <li class="nav-item">
+                    <a class="nav-link ml-5 navigation" href="{{ route('user.register') }}"><i class="fas fa-user-plus"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ml-5 navigation" href="{{ route('user.login') }}"><i class="fas fa-sign-in-alt"></i></a>
+                </li>
+                @endif
             </ul>
-          </div>
         </div>
-        <div>
+    </div>
+</nav>
+
+<!-- Second navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm" style="margin-top: 50px;">
+    <div class="container collapse navbar-collapse border-top " id="navbarNav">
+        <!-- Navbar brand -->
+
+        <!-- Burger button for toggling the collapsed navbar -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+        </button>
+
+        <!-- Collapsible navbar content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto justify-content-center">
+                @foreach($categorys as $category)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('articles.category', $category->id) }}">{{ $category->name}}</a>
+                </li>
+                @endforeach
+            </ul>
         </div>
-      </div>
-      <div class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm  " style="margin-top: 50px;">
-        <div class=" container collapse navbar-collapse  border-top " id="navbarNav">
-          <ul class="navbar-nav mx-auto justify-content-center  ">
-            @foreach($categorys as $category)
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('articles.category', $category->id) }}">{{ $category->name}}</a>
-            </li>
-            @endforeach
-          </ul>
-        </div>
-      </div>
+    </div>
+</nav>
 
 
 
-    </nav>
+  <section>
+    @yield('content')
 
-    <section>
-@yield('content')
-
-    </section>
+  </section>
 
 
-    
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

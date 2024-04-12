@@ -161,6 +161,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $data['articles']->links() }}
         </div>
     </div>
 </div>
