@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 
@@ -30,8 +31,8 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showRese
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/category/{category}', [ArticleController::class, 'showArticlesByCategory'])->name('articles.category');
 
+Route::get('/category/{category}', [ArticleController::class, 'showArticlesByCategory'])->name('articles.category');
 Route::middleware('admin')->group(function () {
     Route::get('/admin/categories', [CategoryController::class, 'get'])->name('categories.index');
     Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -40,18 +41,27 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/users', [AuthController::class, 'get'])->name('users.get');
     Route::put('/admin/users/{id}', [AuthController::class, 'update'])->name('users.update');
     
+    Route::get('/admin/statusArticles',[ArticleController::class,'showArticleAdmin'])->name('showarticles.admin');
+    Route::get('/admin/archivedArticles',[ArticleController::class,'showArchivedArticles'])->name('showArchivedArticles.admin');
+    Route::get('/admin/refusedarticle',[ArticleController::class,'showRefusedArticles'])->name('showRefusedArticles.admin');
+
+    Route::get('/admin/acceptarticle/{id}',[ArticleController::class,'acceptarticle'])->name('acceptarticle.admin');
+    Route::get('/admin/archivedarticle/{id}',[ArticleController::class,'archivedarticle'])->name('archivedarticle.admin');
+    Route::get('/admin/refusedarticle/{id}',[ArticleController::class,'refusedarticle'])->name('refusedarticle.admin');
+    Route::get('/admin/deArchivedarticle/{id}',[ArticleController::class,'deArchivedarticle'])->name('deArchivedarticle.admin');
+});
+
+
+Route::get('/search/{search}', [SearchController::class, 'searchEvent'])->name('articles.search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('articles.search');
+
+
+Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
+Route::middleware('author')->group(function () { 
     Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
 });
-    
-    
-//CRUD article
-Route::get('/article/search/{title}', [ArticleController::class, 'search']);
-
-Route::resource('/article', ArticleController::class);
-Route::post('/logout', [AuthController::class, 'logout']);
-
-//CRUD category
-Route::resource('/categorie', CategoryController::class);

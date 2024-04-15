@@ -15,6 +15,12 @@ class CategoryController extends Controller
         return view('backOffice.category', compact('categories'));
     }
 
+    public function getCategory()
+{
+    $categories = Category::all();
+    return view('frontOffice.search', compact('categories'));
+}
+
 
     public function store(Request $request)
     {

@@ -3,37 +3,37 @@
 
 
 <div class="container-fluid pt-4 px-4">
-        <div class="">
-            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
-            </button>
-            <!-- Modal pour Ajouter -->
-            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content " style="background:#191C24; color:#6C7293;" >
-                        <div class="modal-header">
-                            <h5 class="modal-title"  id="addModalLabel">Ajouter un élément</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Contenu du formulaire pour l'ajout -->
-                            <form action="{{ route('categories.store') }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="name"  class="form-label">Nom de la catégorie</label>
-                                    <input type="text" class="form-control bg-black" id="name" name="name" placeholder="Entrez le nom de la catégorie">
-                                    @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn btn-primary">Ajouter</button>
-                                </div>
-                            </form>
-                        </div>
+    <div class="">
+        <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
+        </button>
+        <!-- Modal pour Ajouter -->
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content " style="background:#191C24; color:#6C7293;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Ajouter un élément</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Contenu du formulaire pour l'ajout -->
+                        <form action="{{ route('categories.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nom de la catégorie</label>
+                                <input type="text" class="form-control bg-black" id="name" name="name" placeholder="Entrez le nom de la catégorie">
+                                @error('name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
         <div class="col-12" style="color: #6C7293;">
             <div class=" rounded h-100 p-4" style="background: #191C24;">
                 <h6 class="mb-4">Responsive Table</h6>
@@ -58,7 +58,7 @@
                                     <!-- Modal pour Supprimer -->
                                     <div class="modal fade" id="deleteModal{{$categorie->id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content" style="background:#191C24; color:#6C7293;" >
+                                            <div class="modal-content" style="background:#191C24; color:#6C7293;">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" style="color: darkslategrey;" id="deleteModalLabel">Supprimer l'élément</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -86,7 +86,7 @@
                                     <!-- Modal pour Mettre à jour -->
                                     <div class="modal fade" id="updateModal{{$categorie->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content" style="background:#191C24; color:#6C7293;" >
+                                            <div class="modal-content" style="background:#191C24; color:#6C7293;">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" style="color: darkslategrey;" id="updateModalLabel">Mettre à jour l'élément</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -97,7 +97,7 @@
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="mb-3">
-                                                            <label for="name"  class="form-label">Nom de la catégorie</label>
+                                                            <label for="name" class="form-label">Nom de la catégorie</label>
                                                             <input type="text" class="form-control" id="name" name="name" value="{{ $categorie->name }}" placeholder="Entrez le nom de la catégorie">
                                                             @error('name')
                                                             <div class="text-danger">{{ $message }}</div>
