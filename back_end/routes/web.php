@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 
@@ -51,7 +52,12 @@ Route::middleware('admin')->group(function () {
 });
 
 
-Route::get('/detai/{id}', [ArticleController::class, 'showDetai'])->name('articles.showDetai');
+Route::get('/search/{search}', [SearchController::class, 'searchEvent'])->name('articles.search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('articles.search');
+
+
+Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
 Route::middleware('author')->group(function () { 
     Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
