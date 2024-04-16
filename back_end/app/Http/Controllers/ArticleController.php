@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Jorenvh\Share\Share;
 
 class ArticleController extends Controller
 {
@@ -39,16 +40,28 @@ class ArticleController extends Controller
         return view('frontOffice.search', compact('articles', 'categories'));
     }
 
+    public function create($id)
+    {
+        $articles = Article::find($id);
+        $categories = Category::all();
+        return view('backOffice.createArticle', compact('articles', 'categories'));
+    }
 
     public function showDetail($id)
     {
         $article = Article::find($id);
+        $categories = Category::find($id);
+        $multipleSharing = new Share();
+        $multipleSharing->facebook();
+        $multipleSharing->twitter();
+        $multipleSharing->telegram();
+        $multipleSharing->whatsapp();
 
         if (!$article) {
             abort(404, 'Article not found');
         }
 
-        return view('frontOffice.details', compact('article'));
+        return view('frontOffice.details', compact('article', 'categories', 'multipleSharing'));
     }
 
     //affichage un sule article 

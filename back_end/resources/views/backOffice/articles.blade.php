@@ -2,58 +2,58 @@
 @section('content')
 
 <div class="col-12 mt-3" style="color: #6C7293;">
-<button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
-</button>
-<!-- Modal pour Ajouter -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog " style="margin-left: 110px;">
-        <div class="modal-content " style="width: 65rem;">
-            <div class="modal-header">
-                <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Contenu du formulaire pour l'ajout -->
-                <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
+    </button>
+    <!-- Modal pour Ajouter -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog " style="margin-left: 110px;">
+            <div class="modal-content " style="width: 65rem;">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Contenu du formulaire pour l'ajout -->
+                    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-                    <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" class="form-control-file" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input type="text" name="title" id="title" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="author">Author:</label>
-                        <input type="text" name="author" id="author" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea name="description" id="description" class="form-control" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="content">Content:</label>
-                        <textarea name="content" id="content" class="form-control" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="category_id">Category:</label>
-                        <select name="category_id" id="category_id" class="form-control" required>
-                            @foreach($data['categories'] as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary">Ajouter</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <label for="image">Image:</label>
+                            <input type="file" name="image" id="image" class="form-control-file" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" name="title" id="title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author:</label>
+                            <input type="text" name="author" id="author" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea name="description" id="description" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content:</label>
+                            <textarea name="content" id="content" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="category_id">Category:</label>
+                            <select name="category_id" id="category_id" class="form-control" required>
+                                @foreach($data['categories'] as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <div class=" rounded h-100 p-4" style="background: #191C24;">
         <h6 class="mb-4">Responsive Table</h6>
@@ -71,7 +71,7 @@
                 <tbody>
                     @foreach ($data['articles'] as $article)
                     <tr>
-                        <td >@if($article->image)
+                        <td>@if($article->image)
                             <img style="height:12vh; width: 20vh;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                             @endif
                         </td>
@@ -156,6 +156,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <a href="{{ route('articles.create', $article->id) }}" class="btn btn-success btn-sm">Ajouter</a>
                         </td>
                     </tr>
                     @endforeach
