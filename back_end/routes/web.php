@@ -49,6 +49,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/archivedarticle/{id}',[ArticleController::class,'archivedarticle'])->name('archivedarticle.admin');
     Route::get('/admin/refusedarticle/{id}',[ArticleController::class,'refusedarticle'])->name('refusedarticle.admin');
     Route::get('/admin/deArchivedarticle/{id}',[ArticleController::class,'deArchivedarticle'])->name('deArchivedarticle.admin');
+
+
 });
 
 
@@ -63,5 +65,6 @@ Route::middleware('author')->group(function () {
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-
+    
+    Route::get('/admin/articles/create/{id}', [ArticleController::class, 'create'])->name('articles.create');
 });

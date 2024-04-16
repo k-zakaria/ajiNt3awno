@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>YouEvento</title>
 
 </head>
@@ -21,11 +22,21 @@
     .navbar-nav {
         margin-left: auto;
     }
+    .nav1{
+        z-index: -10;
+    }
+    .nav2{
+        z-index: -11;
+    }
+
+    .dropdown{
+        z-index: 1000;
+    }
 </style>
 
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <nav class="navbar nav1 navbar-expand-lg navbar-light bg-white fixed-top border">
         <div class="container">
             <!-- Navbar brand -->
             <a class="navbar-brand" href="/" style="color: #141f38; font-size: 25px; "><span style="color: #023071; " class="nav-brand-two">C</span>N</a>
@@ -77,7 +88,7 @@
     </nav>
 
     <!-- Second navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm" style="margin-top: 50px;">
+    <nav class="navbar nav2 navbar-expand-lg navbar-light bg-white fixed-top shadow-sm" style="margin-top: 50px;">
         <div class="container collapse navbar-collapse border-top " id="navbarNav">
             <!-- Navbar brand -->
 
