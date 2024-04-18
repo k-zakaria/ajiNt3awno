@@ -13,21 +13,35 @@ class ArticleController extends Controller
     //afficage de touts les articles
     public function index(Category $category)
     {
-        $articles = Article::where('status', '=', 'accepted')->latest()->get();
+        $articles = Article::with('category')->where('status', '=', 'accepted')->latest()->get();
 
         $leftArticles = $articles->slice(1, 3);
-        $rightArticles = $articles->slice(4, 7);
-        $autreArticles = $articles->slice(9);
+        $rightArticles = $articles->slice(4, 6);
+        $autreArticles = $articles->slice(10, 12);
+        $grandMilieuArticles = $articles->slice(22, 1);
+        $milieuArticles = $articles->slice(23, 4);
+        $plusAutreArticles = $articles->slice(27);
 
-        return view('frontOffice.index', compact('leftArticles', 'rightArticles', 'category', 'autreArticles', 'articles'));
+        $data = [
+            'category' => $category,
+            'articles' => $articles,
+            'leftArticles' => $leftArticles,
+            'rightArticles' => $rightArticles,
+            'autreArticles' => $autreArticles,
+            'grandMilieuArticles' => $grandMilieuArticles,
+            'milieuArticles' => $milieuArticles,
+            'plusAutreArticles' => $plusAutreArticles,
+        ];
+
+        return view('frontOffice.index', compact('data'));
     }
 
     public function showArticlesByCategory(Category $category)
     {
-        $articles = $category->articles()->latest()->get();
+        $articles = $category->articles()->where('status', '=', 'accepted')->latest()->get();
 
-        $rightArticles = $articles->slice(1, 4);
-        $autreArticles = $articles->slice(5);
+        $rightArticles = $articles->slice(1, 5);
+        $autreArticles = $articles->slice(6);
 
         return view('frontOffice.articles_by_category', compact('rightArticles', 'autreArticles', 'articles', 'category'));
     }
@@ -42,14 +56,14 @@ class ArticleController extends Controller
 
     public function create($id)
     {
-        $articles = Article::find($id);
+        $articles = Article::findOrFail($id);
         $categories = Category::all();
         return view('backOffice.createArticle', compact('articles', 'categories'));
     }
 
     public function showDetail($id)
     {
-        $article = Article::find($id);
+        $article = Article::with('section.images')->findOrFail($id);
         $categories = Category::find($id);
         $multipleSharing = new Share();
         $multipleSharing->facebook();
@@ -184,35 +198,43 @@ class ArticleController extends Controller
         return view('backOffice.articlesRefusedAdmin', compact('articles'));
     }
 
-    public function acceptarticle($id)
+    public function acceptArticle($id)
     {
-        $event = Article::find($id);
-        $event->status = 'accepted';
-        $event->save();
-        return redirect()->back();
+        return $this->updateArticleStatus($id, 'accepted');
     }
 
-    public function archivedarticle($id)
+    public function archivedArticle($id)
     {
-        $event = Article::find($id);
-        $event->status = 'archived';
-        $event->save();
-        return redirect()->back();
+        return $this->updateArticleStatus($id, 'archived');
     }
 
-    public function refusedarticle($id)
+    public function refusedArticle($id)
     {
-        $event = Article::find($id);
-        $event->status = 'refused';
-        $event->save();
-        return redirect()->back();
+        return $this->updateArticleStatus($id, 'refused');
     }
 
-    public function deArchivedarticle($id)
+    public function deArchivedArticle($id)
     {
-        $event = Article::find($id);
-        $event->status = 'pending';
-        $event->save();
+        return $this->updateArticleStatus($id, 'pending');
+    }
+
+    public function updateArticleStatus($id, $newStatus)
+    {
+        $validStatus = ['accepted', 'archived', 'refused', 'pending'];
+
+        if (!in_array($newStatus, $validStatus)) {
+            return redirect()->back()->with('error', 'Statut non valide.');
+        }
+
+        $article = Article::find($id);
+
+        if (!$article) {
+            return redirect()->back()->with('error', 'Article non trouvé.');
+        }
+
+        $article->status = $newStatus;
+        $article->save();
+
         return redirect()->back();
     }
 }

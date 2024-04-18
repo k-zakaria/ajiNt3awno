@@ -52,36 +52,9 @@
                                 <td scope="row">1</td>
                                 <td scope="col">{{$categorie->name}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$categorie->id}}">
-                                        Delete
-                                    </button>
-                                    <!-- Modal pour Supprimer -->
-                                    <div class="modal fade" id="deleteModal{{$categorie->id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content" style="background:#191C24; color:#6C7293;">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" style="color: darkslategrey;" id="deleteModalLabel">Supprimer l'élément</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p style="color: darkslategrey;">Êtes-vous sûr</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                    <form id="deleteForm{{$categorie->id}}" action="{{ route('categories.destroy', $categorie) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
 
                                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal{{$categorie->id}}">
-                                        Update
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                     <!-- Modal pour Mettre à jour -->
                                     <div class="modal fade" id="updateModal{{$categorie->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
@@ -107,6 +80,33 @@
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                                             <button type="submit" class="btn btn-primary">Mettre à jour</button>
                                                         </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$categorie->id}}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                    <!-- Modal pour Supprimer -->
+                                    <div class="modal fade" id="deleteModal{{$categorie->id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content" style="background:#191C24; color:#6C7293;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" style="color: darkslategrey;" id="deleteModalLabel">Supprimer l'élément</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p style="color: darkslategrey;">Êtes-vous sûr</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <form id="deleteForm{{$categorie->id}}" action="{{ route('categories.destroy', $categorie) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>

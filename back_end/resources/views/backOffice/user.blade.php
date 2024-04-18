@@ -1,11 +1,11 @@
 @extends('layouts.dashboard')
 @section('content')
 <div class="container-fluid pt-4 px-4">
-    <div class="col-12">
-        <div class="bg-secondary rounded h-100 p-4">
+    <div class="col-12" style="color: #6C7293;">
+        <div class=" rounded h-100 p-4" style="background: #191C24;">
             <h6 class="mb-4">Responsive Table</h6>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" style="color: #6C7293;">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -29,7 +29,7 @@
                             @endif
                             <td>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$user->id}}">
-                                    Update
+                                    <i class="fa-solid fa-user-pen"></i>
                                 </button>
 
                                 <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

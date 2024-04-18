@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <title>YouEvento</title>
+    <title>Capps News</title>
 
 </head>
 <style>
@@ -22,16 +22,15 @@
     .navbar-nav {
         margin-left: auto;
     }
-    .nav1{
-        z-index: -10;
-    }
-    .nav2{
-        z-index: -11;
-    }
 
-    .dropdown{
+   
+    .nav2{
+        z-index: 999;
+    }
+    .nav1{
         z-index: 1000;
     }
+
 </style>
 
 
@@ -63,7 +62,7 @@
                         <a class="nav-link ml-5 navigation" href="reservation">Mes réservations</a>
                     </li>
 
-                    <div class="dropdown d-flex">
+                    <div class="dropdown d-flex" id="dropdown">
                         <a href="#" class="dropdown-toggle nav-link   navigation " id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-end text-small shadow dropdown__list" aria-labelledby="notificationsDropdown">
                             <li><a class="dropdown-item rounded-2" href="#">Profil</a></li>
@@ -112,10 +111,10 @@
 
 
 
-    <section>
+    <section class="main">
         @yield('content')
 
-    </section>
+    </section> 
 
 
 

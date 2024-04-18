@@ -28,7 +28,7 @@
                             <td class="">
                                 <form action="{{route('deArchivedarticle.admin' , $article->id)}}" method="get">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">Accepted</button>
+                                    <button type="submit" class="btn btn-success"><i class="fa-regular fa-circle-check"></i></button>
                                 </form>
                             </td>
                         </tr>

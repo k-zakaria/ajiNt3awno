@@ -12,8 +12,21 @@
     <link href="/css/style.css" rel="stylesheet">
     <title>Capps News</title>
     <style>
-        .dropdown-menu a.dropdown-item:hover {
-            background-color: black;
+        .btn-sm {
+            --bs-btn-padding-y: 0.6rem;
+            --bs-btn-padding-x: 1rem;
+            --bs-btn-font-size: 0.875rem;
+            --bs-btn-border-radius: 0.25rem;
+        }
+
+        .form1 {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 140px;
+            background-color: #000;
         }
 
         /********** Template CSS **********/
