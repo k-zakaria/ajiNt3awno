@@ -33,6 +33,7 @@
                                         {{ $articles[0]->category->name }}
                                     </span>
                                     <h2><a href="details.html">{{ $articles[0]->title }}</a></h2>
+                                    <p>{{ Illuminate\Support\Str::limit($articles[0]->content,400 )}}</p>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +68,7 @@
             @foreach ($autreArticles as $article)
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div class="card">
-                    <a href="{{ route('articles.category', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;   ">
+                    <a href="{{ route('detail.showDetail', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;   ">
                         @if($article->image)
                         <img src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                         @endif

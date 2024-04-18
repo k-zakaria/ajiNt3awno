@@ -62,6 +62,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">author</th>
                         <th scope="col">Description</th>
@@ -75,12 +76,13 @@
                             <img style="height:12vh; width: 20vh;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                             @endif
                         </td>
+                        <td>{{$article->id}}</td>
                         <td scope="col" style="max-width: 200px;">{{Illuminate\Support\Str::limit($article->title, 60)}}</td>
                         <td scope="col">{{ $article->author }}</td>
                         <td scope="col" style="max-width: 200px;">{{ Illuminate\Support\Str::limit($article->description, 75)  }}</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal{{$article->id}}">
-                                Update
+                            <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                             <!-- Modal pour Mettre à jour -->
                             <div class="modal fade" id="updateModal{{$article->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
@@ -131,7 +133,7 @@
                             </div>
 
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$article->id}}">
-                                Delete
+                            <i class="fa-solid fa-trash"></i>
                             </button>
                             <!-- Modal pour Supprimer -->
                             <div class="modal fade" id="deleteModal{{$article->id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -156,7 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('articles.create', $article->id) }}" class="btn btn-success btn-sm">Ajouter</a>
+                            <a href="{{ route('sections.show', $article->id) }}" class="btn btn-success btn-sm"><i class="fa-solid fa-square-plus"></i></a>
                         </td>
                     </tr>
                     @endforeach

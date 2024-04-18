@@ -25,18 +25,18 @@
 
                             <td>{{$article->title}}</td>
                             <td> {{ Illuminate\Support\Str::limit($article->description, 90) }}</td>
-                            <td class="">
-                                <form action="{{route('acceptarticle.admin' , $article->id)}}" method="get">
+                            <td>
+                                <form action="{{ route('acceptarticle.admin', $article->id) }}" method="get" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">Accepted</button>
+                                    <button type="submit" class="btn btn-success"><i class="fa-regular fa-circle-check"></i></button>
                                 </form>
-                                <form action="{{route('archivedarticle.admin' , $article->id)}}" method="get">
+                                <form action="{{ route('archivedarticle.admin', $article->id) }}" method="get" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">Archeved</button>
+                                    <button type="submit" class="btn btn-warning"><i class="fa-solid fa-box-archive"></i></button>
                                 </form>
-                                <form action="{{route('refusedarticle.admin' , $article->id)}}" method="get">
+                                <form action="{{ route('refusedarticle.admin', $article->id) }}" method="get" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">Refused</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-recycle"></i></button>
                                 </form>
                             </td>
                         </tr>

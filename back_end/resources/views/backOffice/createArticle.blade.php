@@ -1,85 +1,208 @@
-@extends('layouts.main')
-
+@extends('layouts.dashboard')
 @section('content')
 
-<style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 180px;
-            background-color: #f8f9fa;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-weight: bold;
-        }
-        .form-group input[type="text"],
-        .form-group textarea,
-        .form-group select {
-            width: 100vh;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-    </style>
+<div class="col-12 mt-3" style="color: #6C7293;">
 
-<div class="form-container">
-    <h2 style="text-align: center;">Ajouter un article</h2>
-    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-            <label for="image">Image:</label>
-            <input type="file" name="image" id="image" class="form-control-file" required>
+    <div class="trending-area fix">
+        <div class="container mt-2">
+            <div class="trending-main">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Trending Top -->
+                        <div class="trending-top mb-30">
+                            <div class="trend-top-img">
+                                @if ($articles->image)
+                                <img src="{{ asset('storage/images/' . $articles->image) }}" alt="{{ Illuminate\Support\Str::limit($articles->title, 60) }} Image">
+                                @endif
+                                <div class="trend-top-cap">
+                                    <span>
+                                        {{ $articles->category->name }}
+                                    </span>
+                                    <h2><a href="details.html">{{ $articles->title }}</a></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="title">Titre:</label>
-            <input type="text" name="title" id="title" class="form-control" required>
+    </div>
+
+    <div class=" rounded h-100 p-4" style="background: #191C24;">
+        <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
+        </button>
+        <!-- Modal pour Ajouter -->
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog " style="margin-left: 110px;">
+                <div class="modal-content " style="width: 65rem;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Contenu du formulaire pour l'ajout -->
+                        <form action="{{ route('sections.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            <input type="hidden" name="article_id" value="{{ $articles->id }}">
+
+                            <div class="form-group">
+                                <label for="titre">Title:</label>
+                                <input type="text" name="titre" id="titre" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="description" class="form-control" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Content:</label>
+                                <textarea name="content" id="content" class="form-control" required></textarea>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="author">Auteur:</label>
-            <input type="text" name="author" id="author" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea name="description" id="description" class="form-control" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="content">Contenu:</label>
-            <textarea name="content" id="content" class="form-control" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="category_id">Catégorie:</label>
-            <select name="category_id" id="category_id" class="form-control" required>
-                @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+
+        <h6 class="mb-4">Responsive Table</h6>
+        <div class="table-responsive">
+            <table class="table" style="color: #6C7293;">
+                <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($sections as $section)
+                    <tr>
+                        @if(!$section->images->isEmpty())
+                            <td><img style="height:12vh; width: 20vh;" src="{{ asset('storage/images/' . $section->images[0]->image) }}" alt="Image de la section"></td>
+
+                        @else
+                            <td>null</td>
+                        @endif
+                    <td scope="col" style="max-width: 200px;">{{Illuminate\Support\Str::limit($section->titre, 60)}}</td>
+                    <td scope="col" style="max-width: 200px;">{{ Illuminate\Support\Str::limit($section->description, 75)  }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal{{$section->id}}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$section->id}}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <button class="btn btn-success  btn-sm" data-bs-toggle="modal" data-bs-target="#addModal{{$section->id}}">
+                            <i class="fa-solid fa-images"></i>
+                        </button>
+                        <!-- Modal pour Mettre à jour -->
+                        <div class="modal fade" id="updateModal{{$section->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="margin-left: 110px;">
+                                <div class="modal-content" style="width: 65rem;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="color: darkslategrey;" id="updateModalLabel">Mettre à jour l'élément</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Contenu du formulaire pour la mise à jour -->
+                                        <form action="{{ route('sections.update', $section->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div class="form-group">
+                                                <label for="titre">Titre:</label>
+                                                <input type="text" name="titre" id="titre" class="form-control" value="{{ old('titre', $section->titre) }}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="description">Description:</label>
+                                                <textarea name="description" id="description" class="form-control" required>{{ old('description', $section->description) }}</textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="content">Contenu:</label>
+                                                <textarea name="content" id="content" class="form-control" required>{{ old('content', $section->content) }}</textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                                                <a href="{{ route('articles.show', $section->article_id) }}" class="btn btn-secondary">Annuler</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal pour Supprimer -->
+                        <div class="modal fade" id="deleteModal{{$section->id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="color: darkslategrey;" id="deleteModalLabel">Supprimer l'élément</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="color: darkslategrey;">Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <!-- Utilisez un formulaire pour envoyer une requête DELETE -->
+                                        <form id="deleteForm{{$section->id}}" class="delete-section-form" action="{{ route('admin.sections.destroy', $section) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal pour Ajouter -->
+                        <div class="modal fade" id="addModal{{$section->id}}" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                            <div class="modal-dialog " style="margin-left: 110px;">
+                                <div class="modal-content " style="width: 65rem;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Contenu du formulaire pour l'ajout -->
+                                        <form action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="section_id" value="{{ $section->id }}">
+
+                                            <div class="form-group">
+                                                <label for="image">Image:</label>
+                                                <input type="file" name="image" id="image" class="form-control-file" required>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
-            </select>
+                </tbody>
+            </table>
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Ajouter</button>
-    </form>
-</div>
+    </div>
 
-@endsection
+
+
+
+    @endsection

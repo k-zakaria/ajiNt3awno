@@ -4,7 +4,9 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 
@@ -54,17 +56,23 @@ Route::middleware('admin')->group(function () {
 });
 
 
-Route::get('/search/{search}', [SearchController::class, 'searchEvent'])->name('articles.search');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('articles.search');
-
-
 Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
+
 Route::middleware('author')->group(function () { 
     Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
+    Route::delete('/admin/articles/section/{article}', [SectionController::class, 'destroy'])->name('sections.destroy');
     
-    Route::get('/admin/articles/create/{id}', [ArticleController::class, 'create'])->name('articles.create');
+    // Route::get('/admin/articles/create/{id}', [ArticleController::class, 'create'])->name('articles.create');
+    Route::get('/admin/articles/create/{id}', [SectionController::class, 'show'])->name('sections.show');
+    Route::post('/admin/articles/section', [SectionController::class, 'store'])->name('sections.store');
+    Route::put('/admin/articles/section/{id}', [SectionController::class, 'update'])->name('sections.update');
+    Route::delete('admin/articles/section/{id}', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
+    Route::post('/admin/articles/section/image', [ImageController::class, 'store'])->name('images.store');
+
 });
