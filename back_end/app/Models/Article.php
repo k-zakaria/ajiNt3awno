@@ -35,5 +35,15 @@ class Article extends Model
         return $this->hasMany(Section::class);
     }
 
+    public function Commentair()
+    {
+        return $this->hasMany(Commentair::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     
 }
