@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Commentair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jorenvh\Share\Share;
@@ -14,6 +15,8 @@ class ArticleController extends Controller
     public function index(Category $category)
     {
         $articles = Article::with('category')->where('status', '=', 'accepted')->latest()->get();
+        $messages = Article::with(['user', 'commentair'])->latest()->get();
+
 
         $leftArticles = $articles->slice(1, 3);
         $rightArticles = $articles->slice(4, 6);
@@ -22,7 +25,7 @@ class ArticleController extends Controller
         $milieuArticles = $articles->slice(23, 4);
         $plusAutreArticles = $articles->slice(27);
 
-        $data = [
+        $data = [   
             'category' => $category,
             'articles' => $articles,
             'leftArticles' => $leftArticles,
@@ -64,6 +67,8 @@ class ArticleController extends Controller
     public function showDetail($id)
     {
         $article = Article::with('section.images')->findOrFail($id);
+        $commentairs = Commentair::with('user')->where('article_id', $id)->latest()->get();
+
         $categories = Category::find($id);
         $multipleSharing = new Share();
         $multipleSharing->facebook();
@@ -75,7 +80,7 @@ class ArticleController extends Controller
             abort(404, 'Article not found');
         }
 
-        return view('frontOffice.details', compact('article', 'categories', 'multipleSharing'));
+        return view('frontOffice.details', compact('article', 'categories', 'multipleSharing', 'commentairs'));
     }
 
     //affichage un sule article 

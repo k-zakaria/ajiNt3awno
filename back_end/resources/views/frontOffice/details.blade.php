@@ -18,16 +18,16 @@
                 <div class="p-r-10 p-r-0-sr991">
                     <!-- Blog Detail -->
                     <div class="p-b-70">
-                            @if ($categories)
-                            <p>{{ $categories->name }}</p>
-                            @endif
+                        @if ($categories)
+                        <p>{{ $categories->name }}</p>
+                        @endif
                         <h3 class="f1-l-3 cl2 p-b-16 p-t-33 respon2">
                             {{ $article->title }}
                         </h3>
 
                         <div class="flex-wr-s-s p-b-40">
                             <span class="f1-s-3 cl8 m-r-15">
-                                    by {{ $article->author }}
+                                by {{ $article->author }}
                                 <span class="m-rl-3">-</span>
                                 <span>
                                     <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400">{{ $article->created_at }}</time>
@@ -81,6 +81,22 @@
                 </div>
 
                 <!-- Leave a comment -->
+                <div class="mt-3 ">
+                    @foreach($commentairs as $commentair)
+                    <div class="flex bg-slate-50 p-6 rounded-lg " style="background-color: #ECECEC;">
+                        <div class="ml-4 flex flex-col ">
+                            <div class="flex flex-col sm:flex-row sm:items-center d-flex">
+                                @if ($commentair->user)
+                                <h5 class="card-title">{{ $commentair->user->name }}</h5>
+                                @endif
+                                <div class="ml-auto"> <!-- Utiliser ml-auto pour pousser le time à droite -->
+                                    <time class="mt-2 sm:mt-0 sm:ml-4 text-xs text-slate-400">{{ $commentair->created_at }}</time>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-slate-800 sm:leading-loose">{{ $commentair->content }}</p>
+                        </div>
+                    </div>
+                    @endforeach
                 <div>
                     <h4 class="f1-l-4 cl3 p-b-12">
                         Leave a Comment
@@ -91,12 +107,14 @@
                     </p>
 
                     <div class="mt-3">
-                        <form action="g" method="post">
+                        <form action="{{ route('commentair.store', ['article' => $article->id]) }}" method="post">
                             @csrf
                             <textarea class="form-control" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
                             <button type="submit" class="btn btn-primary mt-2">Commenter</button>
                         </form>
                     </div>
+                </div>
+
                 </div>
             </div>
         </div>
