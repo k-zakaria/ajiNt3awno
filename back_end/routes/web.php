@@ -62,6 +62,8 @@ Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('
 Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
 Route::post('detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
 
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+
 Route::middleware('author')->group(function () { 
     Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
