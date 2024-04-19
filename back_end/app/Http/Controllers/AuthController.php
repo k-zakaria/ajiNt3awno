@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,20 +26,20 @@ class AuthController extends Controller
                 'password' => 'required|min:8',
                 'role_id' => 'requred'
             ]);
-    
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role_id' => '3'
             ]);
-    
+
             return redirect()->route('user.login');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Une erreur s\'est produite lors de l\'inscription. Veuillez réessayer.']);
         }
     }
-    
+
 
     public function showLoginForm()
     {
@@ -46,25 +47,25 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    try {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    {
+        try {
+            $credentials = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
+
+            return back()->withErrors([
+                'email' => 'Les informations fournies ne correspondent pas.',
+            ]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Une erreur s\'est produite lors de la connexion. Veuillez réessayer.']);
         }
-
-        return back()->withErrors([
-            'email' => 'Les informations fournies ne correspondent pas.',
-        ]);
-    } catch (\Exception $e) {
-        return back()->withErrors(['error' => 'Une erreur s\'est produite lors de la connexion. Veuillez réessayer.']);
     }
-}
 
 
     public function logout()
@@ -90,13 +91,21 @@ class AuthController extends Controller
         if (!$user) {
             return redirect()->back()->with('error', 'Utilisateur non trouvé.');
         }
-        
+
         $user->role_id = $request->role_id;
         $user->save();
 
         return redirect()->back()->with('success', 'Rôle de l\'utilisateur mis à jour avec succès.');
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user(); // Récupère l'utilisateur connecté
 
-    
+        // Vous pouvez également charger d'autres données nécessaires à votre tableau de bord
+        $articles = Article::where('user_id', $user->id)->get();
+        // Autres opérations...
+
+        return view('layouts.dashboard', compact('user', 'articles'));
+    }
 }
