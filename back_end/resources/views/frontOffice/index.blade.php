@@ -3,17 +3,6 @@
 @section('content')
 
 <div style="margin-top: 120px;"></div>
-<style>
-    img {
-        width: 100%;
-    }
-
-    a {
-        text-decoration: none;
-        color: #333;
-    }
-</style>
-
 <main >
     <!-- Trending Area Start -->
     <div class="trending-area fix">
@@ -45,7 +34,7 @@
                                     <div class="single-bottom mb-35">
                                         <div class="trend-bottom-img mb-30">
                                             @if($article->image)
-                                            <img src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
+                                            <img class="images" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                                             @endif
                                         </div>
                                         <div class="trend-bottom-cap">
@@ -64,7 +53,7 @@
                         <div class="trand-right-single d-flex mb-4 gap-3">
                             <div class="trand-right-img">
                                 @if($article->image)
-                                <img style="width: 180;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
+                                <img class="imagesRight" style="width: 180;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                                 @endif
                             </div>
                             <div class="trand-right-cap">
@@ -87,13 +76,13 @@
             @foreach ($data['autreArticles'] as $article)
             <div class="col-12 col-md-6 col-lg-3 mb-4"> <!-- Adjust the column width for medium and small screens -->
                 <div class="card">
-                    <a href="{{ route('detail.showDetail', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;">
+                    <a class="imagesNormal" href="{{ route('detail.showDetail', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;">
                         @if($article->image)
-                        <img style="height: 140px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{ Illuminate\Support\Str::limit($article->title, 60) }} Image">
+                        <img class="images" style="height: 140px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{ Illuminate\Support\Str::limit($article->title, 60) }} Image">
                         @endif
                         <div class="card-body">
-                            <p class="card-title" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 70) }}</p>
-                            <p class="card-text">{{ Illuminate\Support\Str::limit($article->description, 25) }}</p>
+                            <p class="card-title fs-6" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 60) }}</p>
+                            <p class="card-text opacity-75 ">{{ Illuminate\Support\Str::limit($article->content, 100) }}</p>
                             <div class="ml-auto">
                                 <time style="font-size: 12px; color:#333;">{{ $article->created_at }}</time>
                             </div>
@@ -125,7 +114,7 @@
                                         {{ $article->category->name }}
                                     </span>
                                     <h4><a href="{{ route('detail.showDetail', $article->id) }}">{{ $article->title }}</a></h4>
-                                    <p class="card-title" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->content, 300) }}</p>
+                                    <p class="card-title opacity-75" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->content, 300) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +128,7 @@
                                 <div class="single-bottom mb-35">
                                     <div class="trend-bottom-img mb-30">
                                         @if($article->image)
-                                        <img src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
+                                        <img class="images" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                                         @endif
                                     </div>
                                     <div class="trend-bottom-cap">
@@ -164,13 +153,13 @@
             @foreach ($data['plusAutreArticles'] as $article)
             <div class="col-12 col-md-6 col-lg-3 mb-4"> <!-- Adjust the column width for medium and small screens -->
                 <div class="card">
-                    <a href="{{ route('detail.showDetail', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;">
+                    <a class="imagesNormal" href="{{ route('detail.showDetail', $article->id) }}" class="link-underline-light" style="text-decoration:none; color:#333;">
                         @if($article->image)
-                        <img style="height: 140px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{ Illuminate\Support\Str::limit($article->title, 60) }} Image">
+                        <img class="images" style="height: 140px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{ Illuminate\Support\Str::limit($article->title, 60) }} Image">
                         @endif
                         <div class="card-body">
-                            <p class="card-title" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 70) }}</p>
-                            <p class="card-text">{{ Illuminate\Support\Str::limit($article->description, 25) }}</p>
+                            <p class="card-title fs-6" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 60) }}</p>
+                            <p class="card-text opacity-75">{{ Illuminate\Support\Str::limit($article->content, 100) }}</p>
                             <div class="ml-auto">
                                 <time style="font-size: 12px; color:#333;">{{ $article->created_at }}</time>
                             </div>

@@ -62,7 +62,7 @@
 </main>
 
 <div class="container">
-    <h2>{{ $category->name }}</h2>
+    <h2>{{ $category->name }} <hr class="w-100"></h2>
     <div class="container">
         <div class="row">
             @foreach ($autreArticles as $article)
