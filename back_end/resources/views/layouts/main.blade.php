@@ -15,7 +15,7 @@
 
 </head>
 <style>
-     img {
+    img {
         width: 100%;
     }
 
@@ -24,15 +24,16 @@
         color: #333;
     }
 
-    .images{
+    .images {
         height: 180px;
     }
 
-    .imagesRight{
+    .imagesRight {
         width: 220px;
         height: 115px;
     }
-    .trending-top{
+
+    .trending-top {
         border: none;
     }
 
@@ -107,16 +108,17 @@
                     <li><a class="nav-link ml-5 navigation" href="{{route('articles.show')}}">dashboard</a></li>
                     @endif
 
-                    <div class="dropdown d-flex" id="dropdown">
-                        <a href="#" class="dropdown-toggle nav-link   navigation " id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
-                        <ul class="dropdown-menu dropdown-menu-end text-small shadow dropdown__list" aria-labelledby="notificationsDropdown">
-                            <li><a class="dropdown-item rounded-2" href="#">Profil</a></li>
-                            <li><a class="dropdown-item rounded-2" href="#">Sitting</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item rounded-2" href="{{ route('user.logout') }}">Sign out</a></li>
-                        </ul>
+                    <div class="navbar-nav align-items-center ms-auto">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" style="color: white;">
+                                <img class="rounded-circle me-lg-2" src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : 'https://c8.alamy.com/compfr/2g7ft6h/parametre-fictif-de-photo-d-avatar-par-defaut-icone-d-image-de-profil-grise-homme-en-t-shirt-2g7ft6h.jpg' }}" alt="" style="width: 30px; height: 30px;">
+                                <span class="d-none d-lg-inline-flex">{{ Auth::user()->name}}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end  border-0 rounded-0 rounded-bottom m-0" style="background:#191C24">
+                                <a href="{{route('user.profile')}}" class="dropdown-item text-secondary">Settings</a>
+                                <a href="{{ route('user.logout') }}" class="dropdown-item text-secondary">Log Out</a>
+                            </div>
+                        </div>
                     </div>
                     @else
                     <li class="nav-item">
@@ -144,7 +146,7 @@
             <!-- Collapsible navbar content -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto justify-content-center">
-                <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('articles.index') }}">Home</a>
                     </li>
                     @foreach($categorys as $category)

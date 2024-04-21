@@ -98,14 +98,4 @@ class AuthController extends Controller
         return redirect()->back()->with('success', 'Rôle de l\'utilisateur mis à jour avec succès.');
     }
 
-    public function dashboard()
-    {
-        $user = Auth::user(); // Récupère l'utilisateur connecté
-
-        // Vous pouvez également charger d'autres données nécessaires à votre tableau de bord
-        $articles = Article::where('user_id', $user->id)->get();
-        // Autres opérations...
-
-        return view('layouts.dashboard', compact('user', 'articles'));
-    }
 }

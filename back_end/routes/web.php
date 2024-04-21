@@ -8,6 +8,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 
@@ -60,16 +61,23 @@ Route::middleware('admin')->group(function () {
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('articles.search');
 Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
-Route::post('detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
 
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::post('/detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
+Route::put('/detail/article/{commentId}', [CommentairController::class, 'update'])->name('commentair.update');
+Route::get('/detail/article/{commentId}/delete', [CommentairController::class, 'delete'])->name('commentair.delete');
+
+
+Route::get('/profile', [SettingController::class, 'profile'])->name('user.profile');
+Route::put('/profile', [SettingController::class,'update'])->name('profile.update');
+
+
+
 
 Route::middleware('author')->group(function () { 
     Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-
     Route::delete('/admin/articles/section/{article}', [SectionController::class, 'destroy'])->name('sections.destroy');
     
     // Route::get('/admin/articles/create/{id}', [ArticleController::class, 'create'])->name('articles.create');
