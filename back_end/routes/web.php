@@ -9,6 +9,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\StatistiqueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticate;
 
@@ -55,7 +56,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/deArchivedarticle/{id}',[ArticleController::class,'deArchivedarticle'])->name('deArchivedarticle.admin');
 
 
+    Route::get('/admin/statistique', [StatistiqueController::class, 'state'])->name('sattistique.start');     
 });
+
 
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');

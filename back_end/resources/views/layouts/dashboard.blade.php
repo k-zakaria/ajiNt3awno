@@ -351,7 +351,7 @@
                     <a href="{{ route('showarticles.admin')}}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Status articles</a>
                     <a href="{{ route('showArchivedArticles.admin')}}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Archived articles</a>
                     <a href="{{ route('showRefusedArticles.admin')}}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Refused articles</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                    <a href="{{route('sattistique.start')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
