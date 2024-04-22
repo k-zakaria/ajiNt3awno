@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Repository;
+namespace App\Repository;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Repository\UserRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 

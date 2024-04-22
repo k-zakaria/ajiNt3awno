@@ -3,55 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commentair;
+use App\Repository\CommentRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CommentairController extends Controller
 {
+    protected $commentRepository;
+
+    public function __construct(CommentRepositoryInterface $commentRepository)
+    {
+        $this->commentRepository = $commentRepository;
+    }
+
     public function store(Request $request, $articleId)
     {
-        $request->validate([
-            'commentaire' => 'required|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'commentaire' => 'required|string|max:255',
+            ]);
 
-        Commentair::create([
-            'article_id' => $articleId,
-            'user_id' => auth()->user()->id,
-            'content' => $request->input('commentaire'),
-        ]);
+            $userId = auth()->user()->id;
+            $content = $request->input('commentaire');
 
-        return redirect()->back()->with('success', 'Comment added successfully');
+            $this->commentRepository->createComment($articleId, $userId, $content);
+
+            return redirect()->back()->with('success', 'Commentaire ajouté avec succès');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur s\'est produite lors de l\'ajout du commentaire');
+        }
     }
 
     public function update(Request $request, $commentId)
     {
-        $request->validate([
-            'commentaire' => 'required|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'commentaire' => 'required|string|max:255',
+            ]);
 
-        $comment = Commentair::findOrFail($commentId);
+            $userId = auth()->user()->id;
+            $content = $request->input('commentaire');
 
-        if ($comment->user_id !== auth()->user()->id) {
-            return redirect()->back()->with('error', 'You are not authorized to update this comment');
+            $this->commentRepository->updateComment($commentId, $userId, $content);
+
+            return redirect()->back()->with('success', 'Commentaire mis à jour avec succès');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur s\'est produite lors de la mise à jour du commentaire');
         }
-
-        $comment->update([
-            'content' => $request->input('commentaire'),
-        ]);
-
-        return redirect()->back()->with('success', 'Comment updated successfully');
     }
 
     public function delete($commentId)
-{
-    $comment = Commentair::findOrFail($commentId);
+    {
+        try {
+            $userId = auth()->user()->id;
 
-    if ($comment->user_id !== auth()->user()->id) {
-        return redirect()->back()->with('error', 'You are not authorized to delete this comment');
+            $this->commentRepository->deleteComment($commentId, $userId);
+
+            return redirect()->back()->with('success', 'Commentaire supprimé avec succès');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur s\'est produite lors de la suppression du commentaire');
+        }
     }
-
-    $comment->delete();
-
-    return redirect()->back()->with('success', 'Comment deleted successfully');
-}
-
 }

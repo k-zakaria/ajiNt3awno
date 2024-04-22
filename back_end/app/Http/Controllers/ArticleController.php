@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Commentair;
+use App\Repository\ArticleRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jorenvh\Share\Share;
 
 class ArticleController extends Controller
 {
+    protected $articleRepository;
+
+    public function __construct(ArticleRepositoryInterface $articleRepository)
+    {
+        $this->articleRepository = $articleRepository;
+    }
+
     //afficage de touts les articles
     public function index(Category $category)
     {
@@ -51,7 +59,7 @@ class ArticleController extends Controller
 
     public function searchArticles(Category $category)
     {
-        $articles = Article::where('status', '=', 'accepted')->latest()->get();
+        $articles = $this->articleRepository->searchAcceptedArticles();
         $categories = Category::all();
 
         return view('frontOffice.search', compact('articles', 'categories'));
@@ -59,14 +67,14 @@ class ArticleController extends Controller
 
     public function create($id)
     {
-        $articles = Article::findOrFail($id);
+        $article = $this->articleRepository->findArticleById($id);
         $categories = Category::all();
-        return view('backOffice.createArticle', compact('articles', 'categories'));
+        return view('backOffice.createArticle', compact('article', 'categories'));
     }
 
     public function showDetail($id)
     {
-        $article = Article::with('section.images')->findOrFail($id);
+        $article = $this->articleRepository->findArticleWithDetails($id);
         $commentairs = Commentair::with('user')->where('article_id', $id)->latest()->get();
 
         $categories = Category::find($id);
@@ -109,18 +117,7 @@ class ArticleController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $author_id = auth()->id();
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = 'images/' . time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('public/images', $imageName);
-        }
-
-        Article::create(array_merge($request->all(), [
-            'author_id' => $author_id,
-            'image' => $imageName ?? null
-        ]));
+        $this->articleRepository->createArticle($request->all());
 
         return redirect()->back()->with('success', 'Article créé avec succès');
     }
@@ -128,15 +125,13 @@ class ArticleController extends Controller
     //supprimer un article
     public function destroy($id)
     {
-        $article = Article::find($id);
+        $success = $this->articleRepository->deleteArticle($id);
 
-        if (!$article) {
-            return response()->json(['message' => 'article existe pas.']);
+        if (!$success) {
+            return redirect()->back()->with('error', 'Article non trouvé.');
         }
 
-        $article->delete();
-
-        return redirect()->back()->with('success', 'article a été supprimée avec succès.');
+        return redirect()->back()->with('success', 'Article supprimé avec succès.');
     }
 
 
@@ -170,7 +165,7 @@ class ArticleController extends Controller
                 $data['image'] = $imageName;
             }
 
-            $article->update($data);
+            $this->articleRepository->updateArticle($article, $data);
 
             return redirect()->back()->with('success', 'Article mis à jour avec succès');
         } catch (\Exception $e) {
