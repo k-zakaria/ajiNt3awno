@@ -23,7 +23,7 @@ class ArticleController extends Controller
         $autreArticles = $articles->slice(10, 12);
         $grandMilieuArticles = $articles->slice(22, 1);
         $milieuArticles = $articles->slice(23, 4);
-        $plusAutreArticles = $articles->slice(27);
+        $plusAutreArticles = $articles->slice(27, 24);
 
         $data = [   
             'category' => $category,

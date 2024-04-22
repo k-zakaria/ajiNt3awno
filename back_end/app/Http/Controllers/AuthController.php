@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use App\Models\Role;
 use App\Models\User;
+use App\Http\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     public function create()
     {
         return view('auth.register');
@@ -24,15 +32,9 @@ class AuthController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:8',
-                'role_id' => 'requred'
             ]);
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => '3'
-            ]);
+            
+            $this->userRepository->create($request->all());
 
             return redirect()->route('user.login');
         } catch (\Exception $e) {
@@ -54,7 +56,7 @@ class AuthController extends Controller
                 'password' => 'required',
             ]);
 
-            if (Auth::attempt($credentials)) {
+            if ($this->userRepository->attempt($credentials)) {
                 $request->session()->regenerate();
                 return redirect()->intended('/');
             }
@@ -70,17 +72,15 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        $this->userRepository->logout();
         return redirect()->route('user.login');
     }
 
     public function get()
     {
 
-        $users = User::with("role")->get();
-
-        $roles = Role::all();
-
+        $users = $this->userRepository->getUsersWithRoles();
+        $roles = $this->userRepository->getAllRoles();
 
         return view('backOffice.user', compact('users', 'roles'));
     }
@@ -97,5 +97,4 @@ class AuthController extends Controller
 
         return redirect()->back()->with('success', 'Rôle de l\'utilisateur mis à jour avec succès.');
     }
-
 }

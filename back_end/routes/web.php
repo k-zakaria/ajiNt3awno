@@ -62,7 +62,7 @@ Route::middleware('admin')->group(function () {
 
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
-Route::get('/searchtitle', [ArticleController::class, 'searchArticles'])->name('articles.search');
+Route::get('/searchArticle', [ArticleController::class, 'searchArticles'])->name('articles.search');
 Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
 
 Route::post('/detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');

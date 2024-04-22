@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Http\Repository\UserRepository;
+use App\Http\Repository\UserRepositoryInterface;
 use Illuminate\Pagination\Paginator ;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -17,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**

@@ -32,7 +32,7 @@
                                     <span>
                                         {{ $articles[0]->category->name }}
                                     </span>
-                                    <h2><a href="details.html">{{ $articles[0]->title }}</a></h2>
+                                    <h2><a href="{{ route('detail.showDetail', $articles[0]->id) }}">{{ $articles[0]->title }}</a></h2>
                                     <p>{{ Illuminate\Support\Str::limit($articles[0]->content,400 )}}</p>
                                 </div>
                             </div>
@@ -45,11 +45,11 @@
                         <div class="trand-right-single d-flex mb-4 gap-3">
                             <div class="trand-right-img">
                                 @if($article->image)
-                                <img style="max-width: 300px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
+                                <img class="imagesRight" style="max-width: 300px;" src="{{ asset('storage/images/' . $article->image) }}" alt="{{Illuminate\Support\Str::limit($article->title, 60)}} Image">
                                 @endif
                             </div>
                             <div class="trand-right-cap">
-                                <p><a href="details.html" style="font-size: 13px;">{{ Illuminate\Support\Str::limit($article->title,50 )}}</a></p>
+                                <p><a href="{{ route('detail.showDetail', $article->id) }}" style="font-size: 13px;">{{ Illuminate\Support\Str::limit($article->title,50 )}}</a></p>
                                 <span class="color1">{{ $article->category->name }}</span>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         @endif
                         <div class="card-body">
                             <p class="card-title" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;  ">{{Illuminate\Support\Str::limit($article->title, 55)}}</p>
-                            <p class="card-text">{{ Illuminate\Support\Str::limit($article->description, 25) }}</p>
+                            <p class="card-text opacity-75 ">{{ Illuminate\Support\Str::limit($article->content, 90) }}</p>
                             <div class="ml-auto">
                                 <time style="font-size: 12px; color:#333 ">{{ $article->created_at }}</time>
                             </div>

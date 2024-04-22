@@ -85,7 +85,7 @@
                             {{ $section->description }}
                         </p>
                         <hr class="w-100">
-                        <p class="f1-s-11 cl6 p-b-25" style="line-height: 2.1;">
+                        <p class="f1-s-11 cl6 p-b-25 text-justify" style="line-height: 2.1;">
                             {{ $section->content }}
                         </p>
                         @endforeach
@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-4">{{ $commentair->content }}</p>
+                            <p class="mt-4" style="line-height: 2.1;" >{{ $commentair->content }}</p>
                         </div>
                     </div>
 
@@ -147,7 +147,7 @@
 
                                         <div class="form-group">
                                             <label for="commentaire">Commentaire</label>
-                                            <textarea class="form-control" id="commentaire" name="commentaire" rows="3">{{ $commentair->content }}</textarea>
+                                            <textarea class="form-control" style="line-height: 2.1;" id="commentaire" name="commentaire" rows="3">{{ $commentair->content }}</textarea>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Mettre à jour le commentaire</button>
@@ -170,7 +170,7 @@
                         <div class="mt-3">
                             <form action="{{ route('commentair.store', ['article' => $article->id]) }}" method="post">
                                 @csrf
-                                <textarea class="form-control" name="commentaire" placeholder="Ajouter un commentaire..."></textarea>
+                                <textarea class="form-control" name="commentaire"  placeholder="Ajouter un commentaire..."></textarea>
                                 <button type="submit" class="btn btn-primary mt-2">Commenter</button>
                             </form>
                         </div>

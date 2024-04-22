@@ -82,7 +82,7 @@
                         @endif
                         <div class="card-body">
                             <p class="card-title fs-6" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 60) }}</p>
-                            <p class="card-text opacity-75 ">{{ Illuminate\Support\Str::limit($article->content, 100) }}</p>
+                            <p class="card-text opacity-75 ">{{ Illuminate\Support\Str::limit($article->content, 90) }}</p>
                             <div class="ml-auto">
                                 <time style="font-size: 12px; color:#333;">{{ $article->created_at }}</time>
                             </div>
@@ -159,7 +159,7 @@
                         @endif
                         <div class="card-body">
                             <p class="card-title fs-6" style="font-family: 'Fjalla One', sans-serif;font-size: 14px;">{{ Illuminate\Support\Str::limit($article->title, 60) }}</p>
-                            <p class="card-text opacity-75">{{ Illuminate\Support\Str::limit($article->content, 100) }}</p>
+                            <p class="card-text opacity-75">{{ Illuminate\Support\Str::limit($article->content, 90) }}</p>
                             <div class="ml-auto">
                                 <time style="font-size: 12px; color:#333;">{{ $article->created_at }}</time>
                             </div>
