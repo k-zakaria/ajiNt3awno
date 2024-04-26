@@ -7,76 +7,47 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    //affichage touts les categories
-    public function index()
-    {
-        $categorys = Category::all();
-        return view('layouts.main', compact( 'categorys'));
-    }   
 
     //affichage un sule categorie
-    public function show($id)   
+    public function get()
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return response()->json(['message' => 'La catégorie n\'existe pas.'], 404);
-        }
-
-        return response()->json($category);
+        $categories = Category::paginate(6);
+        return view('backOffice.category', compact('categories'));
     }
 
-    //ajouter un categorie
+    public function getCategory()
+{
+    $categories = Category::all();
+    return view('frontOffice.search', compact('categories'));
+}
+
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories,name',
+            'name' => 'required',
         ]);
 
-        $category = Category::where('name', $request->name)->first();
+        Category::create($request->all());
 
-        if ($category) {
-            return response()->json('La catégorie existe déjà.');
-        }
-
-        $article = new Category();
-        $article->name = $request->name;
-
-        $article->save();
-
-        return response()->json('catégorie ajouté avec succès');
+        return redirect()->back()->with('success', 'Category created successfully');
     }
 
-    //supprimer un categorie
-    public function destroy($id)
+
+    public function update(Request $request, Category $categorie)
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return response()->json(['message' => 'La catégorie existe pas.']);
-        }
-
-        $category->delete();
-
-        return response()->json('La catégorie a été supprimée avec succès.');
-    }
-
-    //modifier un categorie
-    public function update(Request $request, $id)
-    {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return response()->json(['message' => 'La catégorie existe pas.'], 404);
-        }
-
         $request->validate([
-            'name' => 'required|unique:categories,name,' . $id,
+            'name' => 'required',
         ]);
 
-        $category->name = $request->name;
-        $category->save();
+        $categorie->update($request->all());
 
-        return response()->json('La catégorie a été mise à jour avec succès.');
+        return redirect()->back()->with('success', 'Category updated successfully');
+    }
+
+    public function destroy(Category $categorie)
+    {
+        $categorie->delete();
+        return redirect()->back()->with('success', 'Category deleted successfully');
     }
 }

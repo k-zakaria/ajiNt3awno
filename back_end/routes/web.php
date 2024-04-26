@@ -3,9 +3,15 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentairController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Models\Category;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\StatistiqueController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,17 +36,54 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showRese
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/searchArticle', [ArticleController::class, 'searchArticles'])->name('articles.search');
+Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
 Route::get('/category/{category}', [ArticleController::class, 'showArticlesByCategory'])->name('articles.category');
-// Route::get('/', [CategoryController::class, 'index']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [SettingController::class, 'profile'])->name('user.profile');
+    Route::put('/profile', [SettingController::class,'update'])->name('profile.update');
+    
+    Route::post('/detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
+    Route::put('/detail/article/{commentId}', [CommentairController::class, 'update'])->name('commentair.update');
+    Route::get('/detail/article/{commentId}/delete', [CommentairController::class, 'delete'])->name('commentair.delete');
+});
 
 
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/categories', [CategoryController::class, 'get'])->name('categories.index');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/admin/categories/{categorie}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/admin/categories/{categorie}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/admin/users', [AuthController::class, 'get'])->name('users.get');
+    Route::put('/admin/users/{id}', [AuthController::class, 'update'])->name('users.update');
+    
+    Route::get('/admin/statusArticles',[ArticleController::class,'showArticleAdmin'])->name('showarticles.admin');
+    Route::get('/admin/archivedArticles',[ArticleController::class,'showArchivedArticles'])->name('showArchivedArticles.admin');
+    Route::get('/admin/refusedarticle',[ArticleController::class,'showRefusedArticles'])->name('showRefusedArticles.admin');
 
-//CRUD article
-Route::get('/article/search/{title}',[ArticleController::class, 'search']);
+    Route::get('/admin/acceptarticle/{id}',[ArticleController::class,'acceptarticle'])->name('acceptarticle.admin');
+    Route::get('/admin/archivedarticle/{id}',[ArticleController::class,'archivedarticle'])->name('archivedarticle.admin');
+    Route::get('/admin/refusedarticle/{id}',[ArticleController::class,'refusedarticle'])->name('refusedarticle.admin');
+    Route::get('/admin/deArchivedarticle/{id}',[ArticleController::class,'deArchivedarticle'])->name('deArchivedarticle.admin');
 
-Route::resource('/article', ArticleController::class);
-Route::post('/logout',[AuthController::class, 'logout']);
+    Route::get('/admin/statistique', [StatistiqueController::class, 'state'])->name('sattistique.start');     
+});
 
-//CRUD category
-Route::resource('/categorie', CategoryController::class);
 
+Route::middleware('author')->group(function () { 
+    Route::get('/admin/articles', [ArticleController::class, 'show'])->name('articles.show');
+    Route::post('/admin/articles', [ArticleController::class, 'store'])->name('articles.store');
+    Route::put('/admin/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
+    Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::delete('/admin/articles/section/{article}', [SectionController::class, 'destroy'])->name('sections.destroy');
+    
+    Route::get('/admin/articles/create/{id}', [SectionController::class, 'show'])->name('sections.show');
+    Route::post('/admin/articles/section', [SectionController::class, 'store'])->name('sections.store');
+    Route::put('/admin/articles/section/{id}', [SectionController::class, 'update'])->name('sections.update');
+    Route::delete('admin/articles/section/{id}', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
+    Route::post('/admin/articles/section/image', [ImageController::class, 'store'])->name('images.store');
+    
+});

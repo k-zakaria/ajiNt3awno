@@ -4,21 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Article extends Model
 {
     use HasFactory;
     
     protected $fillable = [
+        'image',
         'title',
         'author',
         'description',
         'content',
-        'user_id',
+        'author_id',
         'category_id'
     ];
 
-    public function user()
+    public function author()
     {
         return $this->hasMany(User::class);
     }
@@ -27,4 +29,21 @@ class Article extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function section()
+    {
+        return $this->hasMany(Section::class);
+    }
+
+    public function Commentair()
+    {
+        return $this->hasMany(Commentair::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    
 }

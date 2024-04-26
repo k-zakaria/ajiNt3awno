@@ -1,14 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\User;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     public function create()
     {
         return view('auth.register');
@@ -17,21 +24,21 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8',
+            ]);
+            
+            $this->userRepository->create($request->all());
 
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => '3'
-        ]);
-        return redirect()->route('user.login');
+            return redirect()->route('user.login');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Une erreur s\'est produite lors de l\'inscription. Veuillez réessayer.']);
+        }
     }
+
 
     public function showLoginForm()
     {
@@ -40,29 +47,51 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            $credentials = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            if ($this->userRepository->attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
 
-
-            return redirect()->intended('/');
+            return back()->withErrors([
+                'email' => 'Les informations fournies ne correspondent pas.',
+            ]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Une erreur s\'est produite lors de la connexion. Veuillez réessayer.']);
         }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials don t match',
-        ]);
     }
+
 
     public function logout()
     {
-        Auth::logout();
+        $this->userRepository->logout();
         return redirect()->route('user.login');
     }
 
+    public function get()
+    {
 
-    
+        $users = $this->userRepository->getUsersWithRoles();
+        $roles = $this->userRepository->getAllRoles();
+
+        return view('backOffice.user', compact('users', 'roles'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur non trouvé.');
+        }
+
+        $user->role_id = $request->role_id;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Rôle de l\'utilisateur mis à jour avec succès.');
+    }
 }
