@@ -109,14 +109,14 @@
                     <div class="flex bg-slate-50 p-6 rounded-lg " style="background-color: #ECECEC;">
                         <div class="ml-4 flex flex-col ">
                             <div class="flex flex-col sm:flex-row sm:items-center d-flex">
-                                <img class="rounded-circle me-lg-2" src="{{ Auth::user()->image ? asset('storage/images/' . Auth::user()->image) : 'https://c8.alamy.com/compfr/2g7ft6h/parametre-fictif-de-photo-d-avatar-par-defaut-icone-d-image-de-profil-grise-homme-en-t-shirt-2g7ft6h.jpg' }}" alt="" style="width: 40px; height: 40px;">
+                                <img class="rounded-circle me-lg-2 mt-2" src="{{ $commentair->user->image ? asset('storage/' . $commentair->user->image) : 'https://c8.alamy.com/compfr/2g7ft6h/parametre-fictif-de-photo-d-avatar-par-defaut-icone-d-image-de-profil-grise-homme-en-t-shirt-2g7ft6h.jpg' }}" alt="" style="width: 40px; height: 40px;">
 
                                 @if ($commentair->user)
 
-                                <h5 class="card-title ">{{ $commentair->user->name }}</h5>
+                                <h5 class="card-title mt-3 ">{{ $commentair->user->name }}</h5>
                                 @endif
                                 <div class="ml-auto d-flex gap-5">
-                                    <time class="mt-2 ">{{ $commentair->created_at }} </time>
+                                    <time class="mt-3 ">{{ $commentair->created_at }} </time>
                                     <div class="dropdown">
                                         <div class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-three-dots"></i>
@@ -162,10 +162,6 @@
                         <h4 class="f1-l-4 cl3 p-b-12">
                             Leave a Comment
                         </h4>
-
-                        <p class="f1-s-13 cl8 p-b-40">
-                            Your email address will not be published. Required fields are marked *
-                        </p>
                         @if(Auth::user())
                         <div class="mt-3">
                             <form action="{{ route('commentair.store', ['article' => $article->id]) }}" method="post">

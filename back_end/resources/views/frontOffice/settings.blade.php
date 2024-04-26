@@ -55,9 +55,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Autres champs de formulaire -->
-                    <h3 class="mt-4">Delete your account</h3>
-                    <p><a href="/account/settings/delete" class="btn btn-danger">I want to delete my account</a></p>
                 </div>
             </div>
         </div>

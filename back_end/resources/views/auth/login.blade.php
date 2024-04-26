@@ -47,10 +47,6 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group gap-4">
-                                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term">
-                                        <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                                    </div>
 
                                     <div class="form-group row">
                                         <div class="col-md-6 offset-md-4">
@@ -67,7 +63,7 @@
                                 </form>
                             </div>
                             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
+                                <img src="https://img.freepik.com/vecteurs-libre/fond-plat-pour-celebration-dia-del-periodista_23-2149525339.jpg?t=st=1713967241~exp=1713970841~hmac=ea56f75f9eac58385d1dc77524245c0a1f5b588ff4ae48361e9d058c2ad0a2bc&w=1380" class="img-fluid" alt="Sample image">
                             </div>
                         </div>
                     </div>

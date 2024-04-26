@@ -6,7 +6,7 @@
     </button>
     <!-- Modal pour Ajouter -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog " style="margin-left: 110px;">
+        <div class="modal-dialog " style="margin-left: 240px;">
             <div class="modal-content " style="width: 65rem;">
                 <div class="modal-header">
                     <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>
@@ -86,7 +86,7 @@
                             </button>
                             <!-- Modal pour Mettre à jour -->
                             <div class="modal fade" id="updateModal{{$article->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" style="margin-left: 110px;">
+                                <div class="modal-dialog" style="margin-left: 240px;">
                                     <div class="modal-content" style="width: 65rem;">
                                         <div class="modal-header">
                                             <h5 class="modal-title" style="color: darkslategrey;" id="updateModalLabel">Mettre à jour l'élément</h5>

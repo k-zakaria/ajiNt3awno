@@ -37,7 +37,21 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/searchArticle', [ArticleController::class, 'searchArticles'])->name('articles.search');
+Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
 Route::get('/category/{category}', [ArticleController::class, 'showArticlesByCategory'])->name('articles.category');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [SettingController::class, 'profile'])->name('user.profile');
+    Route::put('/profile', [SettingController::class,'update'])->name('profile.update');
+    
+    Route::post('/detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
+    Route::put('/detail/article/{commentId}', [CommentairController::class, 'update'])->name('commentair.update');
+    Route::get('/detail/article/{commentId}/delete', [CommentairController::class, 'delete'])->name('commentair.delete');
+});
+
+
 Route::middleware('admin')->group(function () {
     Route::get('/admin/categories', [CategoryController::class, 'get'])->name('categories.index');
     Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -55,25 +69,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/refusedarticle/{id}',[ArticleController::class,'refusedarticle'])->name('refusedarticle.admin');
     Route::get('/admin/deArchivedarticle/{id}',[ArticleController::class,'deArchivedarticle'])->name('deArchivedarticle.admin');
 
-
     Route::get('/admin/statistique', [StatistiqueController::class, 'state'])->name('sattistique.start');     
 });
-
-
-
-Route::get('/search', [SearchController::class, 'search'])->name('search');
-Route::get('/searchArticle', [ArticleController::class, 'searchArticles'])->name('articles.search');
-Route::get('/detail/article/{id}', [ArticleController::class, 'showDetail'])->name('detail.showDetail');
-
-Route::post('/detail/article/{article}', [CommentairController::class, 'store'])->name('commentair.store');
-Route::put('/detail/article/{commentId}', [CommentairController::class, 'update'])->name('commentair.update');
-Route::get('/detail/article/{commentId}/delete', [CommentairController::class, 'delete'])->name('commentair.delete');
-
-
-Route::get('/profile', [SettingController::class, 'profile'])->name('user.profile');
-Route::put('/profile', [SettingController::class,'update'])->name('profile.update');
-
-
 
 
 Route::middleware('author')->group(function () { 
@@ -83,11 +80,10 @@ Route::middleware('author')->group(function () {
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
     Route::delete('/admin/articles/section/{article}', [SectionController::class, 'destroy'])->name('sections.destroy');
     
-    // Route::get('/admin/articles/create/{id}', [ArticleController::class, 'create'])->name('articles.create');
     Route::get('/admin/articles/create/{id}', [SectionController::class, 'show'])->name('sections.show');
     Route::post('/admin/articles/section', [SectionController::class, 'store'])->name('sections.store');
     Route::put('/admin/articles/section/{id}', [SectionController::class, 'update'])->name('sections.update');
     Route::delete('admin/articles/section/{id}', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
     Route::post('/admin/articles/section/image', [ImageController::class, 'store'])->name('images.store');
-
+    
 });

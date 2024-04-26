@@ -3,31 +3,6 @@
 
 <div class="col-12 mt-3" style="color: #6C7293;">
 
-    <div class="trending-area fix">
-        <div class="container mt-2">
-            <div class="trending-main">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <!-- Trending Top -->
-                        <div class="trending-top mb-30">
-                            <div class="trend-top-img">
-                                @if ($articles->image)
-                                <img src="{{ asset('storage/images/' . $articles->image) }}" alt="{{ Illuminate\Support\Str::limit($articles->title, 60) }} Image">
-                                @endif
-                                <div class="trend-top-cap">
-                                    <span>
-                                        {{ $articles->category->name }}
-                                    </span>
-                                    <h2><a href="details.html">{{ $articles->title }}</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class=" rounded h-100 p-4" style="background: #191C24;">
         <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Ajouter
         </button>
@@ -105,7 +80,7 @@
                         </button>
                         <!-- Modal pour Mettre à jour -->
                         <div class="modal fade" id="updateModal{{$section->id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" style="margin-left: 110px;">
+                            <div class="modal-dialog" style="margin-left: 240px;">
                                 <div class="modal-content" style="width: 65rem;">
                                     <div class="modal-header">
                                         <h5 class="modal-title" style="color: darkslategrey;" id="updateModalLabel">Mettre à jour l'élément</h5>
@@ -168,7 +143,7 @@
 
                         <!-- Modal pour Ajouter -->
                         <div class="modal fade" id="addModal{{$section->id}}" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                            <div class="modal-dialog " style="margin-left: 110px;">
+                            <div class="modal-dialog " style="margin-left: 240px;">
                                 <div class="modal-content " style="width: 65rem;">
                                     <div class="modal-header">
                                         <h5 class="modal-title" style="color: darkslategrey;" id="addModalLabel">Ajouter un élément</h5>

@@ -11,77 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
+
     <title>Capps News</title>
 
 </head>
-<style>
-    img {
-        width: 100%;
-    }
-
-    a {
-        text-decoration: none;
-        color: #333;
-    }
-
-    .images {
-        height: 180px;
-    }
-
-    .imagesRight {
-        width: 220px;
-        height: 115px;
-    }
-
-    .trending-top {
-        border: none;
-    }
-
-    .navbar-brand {
-        color: #339898;
-        font-weight: bold;
-    }
-
-    .navbar-nav {
-        margin-left: auto;
-    }
-
-
-    .nav2 {
-        z-index: 999;
-    }
-
-    .nav1 {
-        z-index: 1000;
-    }
-
-    .bi {
-        font-size: 2rem;
-    }
-
-    .bi-instagram:hover {
-        color: #e4405f;
-    }
-
-    .bi-whatsapp:hover {
-        color: #25d366;
-    }
-
-    .bi-twitter:hover {
-        color: #1da1f2;
-    }
-
-    .category {
-        margin-top: 0.6rem;
-    }
-
-    @media screen and (max-width: 600px) {
-        .list-unstyled li {
-            font-size: 12px;
-        }
-    }
-</style>
-
 
 <body>
     <nav class="navbar nav1 navbar-expand-lg navbar-light bg-white fixed-top border">
@@ -114,7 +48,7 @@
                                 <img class="rounded-circle me-lg-2" src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : 'https://c8.alamy.com/compfr/2g7ft6h/parametre-fictif-de-photo-d-avatar-par-defaut-icone-d-image-de-profil-grise-homme-en-t-shirt-2g7ft6h.jpg' }}" alt="" style="width: 30px; height: 30px;">
                                 <span class="d-none d-lg-inline-flex">{{ Auth::user()->name}}</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end  border-0 rounded-0 rounded-bottom m-0" style="background:#191C24">
+                            <div class="dropdown-menu dropdown-menu-end  border-0 rounded-0 rounded-bottom m-0" style="background:#ffffff">
                                 <a href="{{route('user.profile')}}" class="dropdown-item text-secondary">Settings</a>
                                 <a href="{{ route('user.logout') }}" class="dropdown-item text-secondary">Log Out</a>
                             </div>
@@ -167,8 +101,8 @@
     </section>
 
 
-    <footer class="mt-5 bg-light text-body">
-        <div class="container py-4 ">
+    <footer class="mt-5 bg-dark text-body">
+        <div class="container py-4 " style="color: #fff;">
             <hr class="w-100">
             <div class="row ">
                 <div class="col-md-12 ">
@@ -215,14 +149,11 @@
             <hr class="w-100">
         </div>
     </footer>
-
-
-
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
 </body>
 
 </html>

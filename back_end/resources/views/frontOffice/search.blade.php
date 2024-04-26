@@ -2,17 +2,6 @@
 
 @section('content')
 
-<style>
-     img {
-        width: 100%;
-        height: 140px;
-    }
-
-    a {
-        text-decoration: none;
-        color: #333;
-    }
-</style>
 
 <div style="margin-top: 200px;"></div>
 <div class="row  d-flex justify-content-center gap-2 mb-5">

@@ -70,7 +70,7 @@
                                 </form>
                             </div>
                             <div class="w-8/12 lg:w-1/2 col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                                <img alt="Image d'un événement Meetup en personne" width="379" height="269" decoding="async" data-nimg="1" style="color: transparent;" srcset="https://secure.meetupstatic.com/next/images/indexPage/irl_event.svg?w=384 1x, https://secure.meetupstatic.com/next/images/indexPage/irl_event.svg?w=828 2x" src="https://secure.meetupstatic.com/next/images/indexPage/irl_event.svg?w=828">
+                                <img alt="Image d'un événement Meetup en personne" width="600" height="300" decoding="async" data-nimg="1" style="color: transparent;" srcset="https://img.freepik.com/vecteurs-libre/main-tenant-smartphones-journal-ligne-newsletter-blog_74855-20591.jpg?t=st=1714024951~exp=1714028551~hmac=550fa43be68e4a2937eaace4b02b3268d928e1f51b1e7a68dbcc28c2f390f146&w=1380" src="https://img.freepik.com/vecteurs-libre/main-tenant-smartphones-journal-ligne-newsletter-blog_74855-20591.jpg?t=st=1714024951~exp=1714028551~hmac=550fa43be68e4a2937eaace4b02b3268d928e1f51b1e7a68dbcc28c2f390f146&w=1380">
                             </div>
                         </div>
                     </div>

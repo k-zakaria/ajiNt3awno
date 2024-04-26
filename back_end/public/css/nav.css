@@ -1,0 +1,76 @@
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+img {
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.images {
+    height: 180px;
+}
+
+.imagesRight {
+    width: 220px;
+    height: 115px;
+}
+
+.trending-top {
+    border: none;
+}
+
+.navbar-brand {
+    color: #339898;
+    font-weight: bold;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+
+.nav2 {
+    z-index: 999;
+}
+
+.nav1 {
+    z-index: 1000;
+}
+
+.bi {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.bi-instagram:hover {
+    color: #e4405f;
+}
+
+.bi-facebook:hover {
+    color: #1877F2;
+    ;
+}
+
+.bi-whatsapp:hover {
+    color: #25d366;
+}
+
+.bi-twitter:hover {
+    color: #1da1f2;
+}
+
+.category {
+    margin-top: 0.6rem;
+}
+
+@media screen and (max-width: 600px) {
+    .list-unstyled li {
+        font-size: 12px;
+    }
+}
